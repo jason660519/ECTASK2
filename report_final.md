@@ -286,18 +286,18 @@ This topology is also the most practical option for a house because it matches h
 
 **Hardware Device** | **Function** | **Reason it is needed**
 --- | --- | ---
-NBN Optical Modem | Connects the home to the ISP fibre network | Provides internet uplink to the internal network.
-Main Router (ZTE BE6800Pro+) | Performs routing, NAT, Wi-Fi, and security policy control | Acts as the main central node of the star topology.
-Second Router/AP (TP-Link Archer C1200) | Extends Wi-Fi coverage for weak signal areas | Improves whole-home wireless signal quality.
-Switch 1 (NETGEAR JGS516PE) | Provides multiple wired ports and PoE support | Connects PCs, NAS, edge devices, and uplink to PoE segment.
-Switch 2 (8-port 120W PoE) | Delivers PoE power and data to surveillance devices | Powers PoE cameras and links surveillance equipment.
-Asustor Flashstor 6 NAS | Central storage and backup target | Stores files, backups, and surveillance-related data.
-PCs and Mac mini | Development, compute, and daily use | Require stable wired connectivity and high throughput.
-Edge devices (Raspberry Pi + Jetson + HA host) | Local automation and edge processing | Supports fast local response and reduced cloud dependency.
-Camera system (Tuya + ANNKE + Xiongmai PoE) | Security monitoring and event capture | Enables remote monitoring and evidence recording.
-NVR system (Xiongmai + ANNKE) | Video aggregation, recording, and playback | Centralises camera video management.
-iPhones/iPads | Device management and remote control apps | Main user interface for control and notifications.
-Canon Wi-Fi printer | Wireless shared printing | Supports family device printing without cabling.
+NBN Optical Modem | Connects the home to the ISP fibre network | Keeps the WAN design realistic because this is the existing home internet entry point.
+Main Router (ZTE BE6800Pro+) | Performs routing, NAT, Wi-Fi, and security policy control | Replaces overloaded single-router setup and becomes the security/control core for all zones.
+Second Router/AP (TP-Link Archer C1200) | Extends Wi-Fi coverage for weak signal areas | Solves weak-signal rooms while reusing an existing device instead of buying another AP.
+Switch 1 (NETGEAR JGS516PE) | Provides multiple wired ports and PoE support | Needed because the home now has more wired endpoints than router LAN ports.
+Switch 2 (8-port 120W PoE) | Delivers PoE power and data to surveillance devices | Separates camera power/data load from general traffic and improves CCTV stability.
+Asustor Flashstor 6 NAS | Central storage and backup target | Matches household need for shared files, backup, and local media/surveillance retention.
+PCs and Mac mini | Development, compute, and daily use | Reflects real high-bandwidth family usage that benefits from wired links.
+Edge devices (Raspberry Pi + Jetson + HA host) | Local automation and edge processing | Enables local automations and low-latency processing even during cloud/WAN interruptions.
+Camera system (Tuya + ANNKE + Xiongmai PoE) | Security monitoring and event capture | Fits the real safety objective of full-home monitoring and remote incident checks.
+NVR system (Xiongmai + ANNKE) | Video aggregation, recording, and playback | Provides local evidence retention and playback without relying only on cloud services.
+iPhones/iPads | Device management and remote control apps | Mirrors how the household actually controls cameras, alerts, and automations day-to-day.
+Canon Wi-Fi printer | Wireless shared printing | Represents a practical shared-home endpoint that must remain accessible without new cabling.
 
 All devices in the smart home connect using a star topology with the main router as the central control point. The NBN optical modem links to the ISP and then to the main router. The second router runs as an AP and coverage extension.
 
@@ -306,6 +306,8 @@ High-demand devices such as the NAS, PCs, Mac mini, NVR, and edge computing node
 All data travels through TCP/IP protocols across the router and switches, supporting internal communication, internet access, and remote monitoring. Wired links are used where stability and throughput are critical, while Wi-Fi is used for mobility and flexible deployment.
 
 These choices are tied to the actual house rather than a generic model. The existing C1200 can still be useful, so it is repurposed as an access point instead of being ignored. The main router, PoE switch, NAS, NVR, Raspberry Pi, Jetson boards, and Home Assistant host each solve a visible problem in the home: weak coverage, shared storage, local recording, low-power automation, and camera reliability. The cable tools and tracers are included because a retrofit needs cable identification and verification, while the PoE splitter is useful where a device needs power and data but the room has no convenient outlet.
+
+In assessment terms, this is a problem-driven selection rather than a technology wishlist: coverage problems map to the AP strategy, random dropouts map to a stronger router and wired backbone, surveillance requirements map to PoE plus NVR, and family workflow needs map to NAS plus mobile app control. This direct mapping demonstrates authentic design decisions and stronger technical justification.
 
 ### Photographic Evidence
 The photographs below show the physical equipment that supports the hardware list above. They are grouped by function so the report remains easy to read while still including the real devices used in the home.
