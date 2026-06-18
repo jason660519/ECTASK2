@@ -13,10 +13,12 @@ Welcome to the ECTask2 workspace. This homepage organizes the current project fi
 
 ## Diagram Sources
 
-- [smart_home_network_diagram.mmd](./smart_home_network_diagram.mmd) — Main Mermaid source for the proposed network diagram.
-- [smart_home_network_diagram_simple.mmd](./smart_home_network_diagram_simple.mmd) — Simplified diagram variant.
-- [smart_home_network_diagram_segmented.mmd](./smart_home_network_diagram_segmented.mmd) — Segmented security architecture variant.
-- [smart_home_network_diagram_by_rooms.mmd](./smart_home_network_diagram_by_rooms.mmd) — Room-based diagram variant.
+- `smart_home_network_diagram.mmd` — Main Mermaid source for the proposed network diagram.
+- `smart_home_network_diagram_simple.mmd` — Simplified diagram variant.
+- `smart_home_network_diagram_segmented.mmd` — Segmented security architecture variant.
+- `smart_home_network_diagram_by_rooms.mmd` — Room-based diagram variant.
+
+> Note: All diagrams are visually rendered on the [Network Diagrams](./network_diagrams.md) page.
 
 ## Notes
 

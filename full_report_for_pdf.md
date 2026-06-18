@@ -56,34 +56,7 @@ This design balances performance, security, privacy, and scalability while addre
 
 **Figure 1** shows the existing home network architecture before the smart home upgrade. This is a simple star topology with a single TP-Link Archer C1200 router as the central hub, connected to a basic switch providing wired device connectivity.
 
-```mermaid
-graph TD
-    Internet[Internet ISP]
-    Modem[Optical Modem]
-    Router[TP-Link Archer C1200 Router]
-    Switch[Basic Switch]
-    
-    Internet --> Modem --> Router
-    Router --> Switch
-    
-    subgraph Wireless Devices
-        iPhones[iPhone x3]
-        MacBooks[MacBook x2]
-        iPads[iPad x2]
-        SmartTV[Smart TV]
-        
-        Router --> iPhones
-        Router --> MacBooks
-        Router --> iPads
-        Router --> SmartTV
-    end
-    
-    subgraph Wired Devices
-        PCs[PC x3]
-        
-        Switch --> PCs
-    end
-```
+![Current Home Network Diagram - Simple Version](diagrams/smart_home_network_diagram_simple.png)
 
 ### Current Network Device Inventory
 
