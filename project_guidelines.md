@@ -49,6 +49,7 @@ Use only the following status indicators:
 - `smart_home_network_diagram.jpg`: Output images, not edited directly.
 - `scripts/excel_to_md.py`: Data transformation tools.
 - `sheets_md/`: External data export directory.
+- `archive/`: Historical drafts, raw exports, and original source files that should not stay in the root.
 
 ### Root Directory
 
@@ -59,12 +60,18 @@ Use only the following status indicators:
 - Final deliverable: e.g., `report_final.md`
 - Word export: e.g., `assessment_task2_report_final.docx`
 - Core diagrams: e.g., `smart_home_network_diagram.mmd`
+- Active working draft: `report_draft.md`
 
 **Avoid placing in root:**
 - Temporary exports
 - Test files
 - Scattered backups of the same content
 - Unnamed screenshots or attachments
+- Raw Pages or office source exports that are no longer the active editing source
+- Historical drafts that are not the current working version
+
+**Explicit root exceptions:**
+- `.nojekyll` may remain in root when the project is published through GitHub Pages and needs that marker.
 
 ### scripts/ Directory
 
@@ -134,6 +141,13 @@ Use precise specification names; avoid generic terms like `Requirements.md`.
 **Examples:**
 - `assessment_task2_report_final.docx`
 - `report_submission.docx`
+
+### Legacy Source Files and Archives
+
+- Keep the active editable source in the canonical root filename, such as `report_draft.md`.
+- Move one-off office source exports, raw captures, and superseded working copies into `archive/`.
+- Rename archived source files to lowercase snake_case where possible.
+- If an archived file is still worth keeping for provenance, leave it in `archive/` instead of the root.
 
 ### Index Synchronization
 

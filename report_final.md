@@ -16,6 +16,7 @@
    - [Network Type](#network-type)
    - [Topology Selection](#topology-selection)
    - [Hardware Devices and Connections](#hardware-devices-and-connections)
+   - [Photographic Evidence](#photographic-evidence)
    - [Addressing and Security Zones](#addressing-and-security-zones)
    - [Wi-Fi Boosters and Control](#wi-fi-boosters-and-control)
    - [Network Security](#network-security)
@@ -303,6 +304,42 @@ All devices in the smart home connect using a star topology with the main router
 High-demand devices such as the NAS, PCs, Mac mini, NVR, and edge computing nodes connect through wired Ethernet switches. Surveillance is split into PoE cameras and Wi-Fi cameras, with both streams accessible from mobile apps.
 
 All data travels through TCP/IP protocols across the router and switches, supporting internal communication, internet access, and remote monitoring. Wired links are used where stability and throughput are critical, while Wi-Fi is used for mobility and flexible deployment.
+
+These choices are tied to the actual house rather than a generic model. The existing C1200 can still be useful, so it is repurposed as an access point instead of being ignored. The main router, PoE switch, NAS, NVR, Raspberry Pi, Jetson boards, and Home Assistant host each solve a visible problem in the home: weak coverage, shared storage, local recording, low-power automation, and camera reliability. The cable tools and tracers are included because a retrofit needs cable identification and verification, while the PoE splitter is useful where a device needs power and data but the room has no convenient outlet.
+
+### Photographic Evidence
+The photographs below show the physical equipment that supports the hardware list above. They are grouped by function so the report remains easy to read while still including the real devices used in the home.
+
+**Figure 5: Core networking hardware and installation tools**
+
+| | | |
+| --- | --- | --- |
+| ![ZTE BE6800 Pro+ router front](<PIC/zte_be6800_pro_router_front.jpg>) | ![ZTE BE6800 Pro+ router back](<PIC/zte_be6800_pro_router_backjpg.jpg>) | ![PoE switch](<PIC/poe_switch.jpeg>) |
+| ![Internet cable tools](<PIC/internet_cable_tools_1.jpg>) | ![Optical wire meter tracer](<PIC/wire_meter_tracer_1_optical.jpg>) | ![Wire meter tracer](<PIC/wire_meter_tracer_2.jpg>) |
+| ![PoE splitter](<PIC/poe_splitter.jpg>) | ![Starlink receiver, router, and power supply box](<PIC/starlink_satellite_receiver_starlink_router_power_supply_box.jpg>) | ![Living Room LG TV](<PIC/living_room_lg_tv.jpg>) |
+
+**Figure 6: Storage and workstation hardware**
+
+| | | |
+| --- | --- | --- |
+| ![Asustor NAS front](<PIC/asustor_nas_front.jpeg>) | ![Asustor NAS back](<PIC/asustor_nas_back.jpeg>) | ![Synology NAS](<PIC/synalogy_nas_1.jpg>) |
+| ![Home lab overview](<PIC/home_lab_1.jpeg>) | ![Mac Intel Docker server](<PIC/15_years_old_apple_mac_intel_book_x86_1_for_docker_server.jpg>) | ![Comfy UI server PC](<PIC/mis_pc_living_server_for_comfy_ui_ai_generator.jpg>) |
+| ![RTX3090 power supply](<PIC/mis_pc_powersupply_1100w_for_rtx3090.jpg>) |  |  |
+
+**Figure 7: Edge and automation hardware**
+
+| | | |
+| --- | --- | --- |
+| ![Raspberry Pi 5](<PIC/raspberry_pi_5_4gb.jpg>) | ![Jetson Nano 2GB](<PIC/jestson_nano_2g_2.jpg>) | ![Jetson Nano 4GB](<PIC/jestson_nano_4g_1.jpg>) |
+| ![DIY 3D printer](<PIC/diy_3d_printer.jpg>) | ![Robot vacuum cleaner](<PIC/valcumn_cleaner_rotics.jpg>) | ![Sony Vivo notebook](<PIC/20_years_old_sony_vivo_note_bookjpg.jpg>) |
+
+**Figure 8: Surveillance and recording hardware**
+
+| | | |
+| --- | --- | --- |
+| ![NVR front](<PIC/nvr_recoder_front.jpeg>) | ![NVR back](<PIC/nvr_recoder_back.jpeg>) | ![NVR internal view](<PIC/nvr_recoder_in.jpeg>) |
+
+Together, these photos show that the network design is based on the household's real equipment and installation constraints. Some devices are reused because they already fit the job, some are added because the current network cannot cover the whole house, and some are installation tools needed to make the retrofit measurable and reliable.
 
 ### Addressing and Security Zones
 

@@ -6,7 +6,7 @@ Welcome to the ECTask2 workspace. This homepage organizes the current project fi
 
 - [assessment_task2_report_final.md](./assessment_task2_report_final.md) — **Final Submission Report** (fully optimised for marking)
 - [report_final.md](./report_final.md) — Previous formatted submission-oriented version of the report.
-- [Report.md](./Report.md) — Original initial report draft.
+- [report_draft.md](./report_draft.md) — Main working draft of the report.
 - [project_guidelines.md](./project_guidelines.md) — Unified project guidelines for report formatting and file naming management.
 - [sheets_md/3c_clean_en.md](./sheets_md/3c_clean_en.md) — Cleaned summary of the home device inventory for report use.
 
@@ -20,7 +20,9 @@ Welcome to the ECTask2 workspace. This homepage organizes the current project fi
 ## Notes
 
 - `assessment_task2_report_final.md` is the **final, optimised report** ready for submission.
+- `report_draft.md` is the active working draft.
 - `sheets_md/` keeps a cleaned summary file for report usage.
+- Raw source exports such as Pages files should be kept in `archive/` unless they are the active editable source.
 - Diagram editing should use the `.mmd` files rather than the exported image.
 
 ## Rename Quick Checklist

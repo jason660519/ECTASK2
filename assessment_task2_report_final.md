@@ -345,20 +345,24 @@ The following table summarises the key hardware components in the upgraded netwo
 
 | Hardware Device | Function | Rationale |
 |-----------------|----------|-----------|
-| NBN Optical Modem | Connects home to ISP fibre network | Provides high-speed internet uplink |
-| Main Router (ZTE BE6800Pro+) | Routing, NAT, Wi-Fi 7, security policy | Central hub with advanced features |
-| Second Router/AP (TP-Link Archer C1200) | Wi-Fi coverage extension | Improves signal in weak areas; reuses existing hardware |
-| NETGEAR JGS516PE Switch | 16-port gigabit with PoE | Connects core devices, provides PoE budget |
-| 8-port 120W PoE Switch | Dedicated PoE for surveillance | Powers PoE cameras reliably |
-| Asustor Flashstor 6 NAS | Central storage and backup | Stores files, backups, and surveillance data |
-| PCs and Mac mini | Compute and daily use | Require stable wired connectivity |
-| Edge Devices (RPi, Jetson, HA) | Local automation and edge AI | Enables fast local response |
-| Camera System | Security monitoring | Remote viewing and evidence capture |
-| NVR System | Video recording and management | Centralises surveillance storage |
-| iPhones/iPads | User control interface | Primary method for smart home management |
-| Canon Wi-Fi Printer | Shared printing | Wireless convenience for family |
+| NBN Optical Modem | Connects home to ISP fibre network | Keeps the WAN design realistic because this is the existing home internet entry point |
+| Main Router (ZTE BE6800Pro+) | Routing, NAT, Wi-Fi 7, security policy | Replaces overloaded single-router setup and becomes the security/control core for all zones |
+| Second Router/AP (TP-Link Archer C1200) | Wi-Fi coverage extension | Solves weak-signal rooms while reusing an existing device instead of buying another AP |
+| NETGEAR JGS516PE Switch | 16-port gigabit with PoE | Needed because the home now has more wired endpoints than router LAN ports |
+| 8-port 120W PoE Switch | Dedicated PoE for surveillance | Separates camera power/data load from general traffic and improves CCTV stability |
+| Asustor Flashstor 6 NAS | Central storage and backup | Matches household need for shared files, backup, and local media/surveillance retention |
+| PCs and Mac mini | Compute and daily use | Reflects real high-bandwidth family usage (development, gaming, content, AI tasks) that benefits from wired links |
+| Edge Devices (RPi, Jetson, HA) | Local automation and edge AI | Enables local automations and low-latency processing even during cloud/WAN interruptions |
+| Camera System | Security monitoring | Fits the real safety objective of full-home monitoring and remote incident checks |
+| NVR System | Video recording and management | Provides local evidence retention and playback without relying only on vendor cloud services |
+| iPhones/iPads | User control interface | Mirrors how the household actually controls cameras, alerts, and automation day-to-day |
+| Canon Wi-Fi Printer | Shared printing | Represents a practical shared-home endpoint that must remain accessible without new cabling |
 
 All devices connect through the star topology with the ZTE BE6800Pro+ as the main control point. High-demand devices use wired Ethernet for stability, while Wi-Fi serves mobility needs. All communication uses TCP/IP protocols, supporting internal traffic, internet access, and remote monitoring.
+
+These hardware choices are based on the actual household setup, not a generic example. The Archer C1200 is reused as an access point because the house already has weak Wi-Fi areas and the device still has value. The NAS is included because the family needs shared storage and backup. The NVR is included because the cameras need local recording, not only cloud recording. The Raspberry Pi, Jetson boards, and Home Assistant host are included because the home benefits from low-power local automation and edge processing. The cable tools, tracers, and PoE splitter are also part of the design because a real retrofit needs cable testing, cable tracing, and flexible power delivery for cameras or devices without a nearby socket.
+
+In assessment terms, this is a problem-driven selection rather than a technology wishlist: coverage problems map to the AP strategy, random dropouts map to a stronger router and wired backbone, surveillance requirements map to PoE + NVR, and family workflow needs map to NAS plus mobile app control. This direct mapping helps demonstrate authentic design decisions and stronger technical justification.
 
 ### Addressing and Security Zones
 
@@ -597,14 +601,35 @@ The Packet Tracer simulation file is included with the submission materials.
 
 ### Appendix C: Photographs of Existing Hardware
 
-Photographs of the current router, switches, and new hardware are provided in the `PIC/` directory:
+Photographs of the current router, switches, storage devices, edge devices, and installation tools are provided in the `PIC/` directory. They are included to show that the design is grounded in the actual household setup.
+
+- `zte_be6800_pro_router_front.jpg` – Main router front view
+- `zte_be6800_pro_router_backjpg.jpg` – Main router rear ports and cabling
+- `poe_switch.jpeg` – PoE switch used for camera power and data
+- `internet_cable_tools_1.jpg` – Cable tools used during installation and maintenance
+- `wire_meter_tracer_1_optical.jpg` – Optical wire tracer for identifying cable runs
+- `wire_meter_tracer_2.jpg` – Wire tracer for checking physical connections
+- `poe_splitter.jpg` – PoE splitter for devices without nearby power outlets
 - `asustor_nas_front.jpeg` – Asustor NAS front panel
 - `asustor_nas_back.jpeg` – Asustor NAS rear connections
+- `synalogy_nas_1.jpg` – Additional NAS hardware in the home lab
+- `home_lab_1.jpeg` – Home lab overview
+- `15_years_old_apple_mac_intel_book_x86_1_for_docker_server.jpg` – Older Mac used as a Docker/server machine
+- `mis_pc_living_server_for_comfy_ui_ai_generator.jpg` – Living room server PC used for ComfyUI and AI tasks
+- `mis_pc_powersupply_1100w_for_rtx3090.jpg` – High-wattage PSU for the high-performance PC build
+- `raspberry_pi_5_4gb.jpg` – Raspberry Pi 5 used for low-power local services
+- `jestson_nano_2g_2.jpg` – Jetson Nano 2GB for edge AI experiments
+- `jestson_nano_4g_1.jpg` – Jetson Nano 4GB for edge AI experiments
+- `diy_3d_printer.jpg` – DIY 3D printer used for prototyping and repair support
+- `valcumn_cleaner_rotics.jpg` – Robot vacuum cleaner showing another smart device in the home
+- `20_years_old_sony_vivo_note_bookjpg.jpg` – Older notebook reused for light server or utility work
+- `living_room_lg_tv.jpg` – Smart TV used as a networked household endpoint
+- `starlink_satellite_receiver_starlink_router_power_supply_box.jpg` – Satellite internet hardware and power supply box
 - `nvr_recoder_front.jpeg` – NVR front panel
 - `nvr_recoder_back.jpeg` – NVR rear connections
 - `nvr_recoder_in.jpeg` – NVR internal view
-- `poe_switch.jpeg` – PoE switch
-- `home_lab_1.jpeg` – Home lab overview
+
+These photos show why the report uses a mixed design: some devices are reused because they still work, some are added because the house needs better coverage or storage, and some are installation tools needed to make the upgrade reliable and testable.
 
 ### Appendix D: Additional Network Diagram Variants
 
