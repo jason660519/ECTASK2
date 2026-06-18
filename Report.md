@@ -37,7 +37,96 @@ The router has been installed outside the pantry because this location is centra
 - No smart devices to improve comfort and convenience
 
 ### New smart home network diagram
-*Diagram placeholder*
+```mermaid
+%% Configuration is supported by some Mermaid renderers
+%% For plain Markdown viewers, the graph itself is the key part.
+graph TD
+    %% Central Network Topology
+    Cloud[Cloud]
+    Modem[Modem]
+    Router[Router]
+    WifiBooster["Wi‑Fi booster"]
+    Switch[Switch]
+
+    %% Core connections
+    Cloud -->|wired| Modem -->|wired| Router
+    Router -->|wired| WifiBooster
+    Router -->|wired| Switch
+
+    %% Family Room
+    subgraph FamilyRoom["Family room"]
+      TV[TV]
+      SmartCam["Smart security camera"]
+      SmartLightFR["Smart lights"]
+      Router -->|wireless| TV
+      Router -->|wireless| SmartCam
+      Router -->|wireless| SmartLightFR
+    end
+
+    %% Master Bedroom
+    subgraph MasterBedroom["Master bedroom"]
+      iPhoneMB[iPhone]
+      iPadMB[iPad]
+      SmartLightMB["Smart lights"]
+      HealthMonitor["Health monitor"]
+      Router -->|wireless| iPhoneMB
+      Router -->|wireless| iPadMB
+      Router -->|wireless| SmartLightMB
+      iPhoneMB <-->|wireless| HealthMonitor
+    end
+
+    %% Bedroom 1
+    subgraph Bedroom1["Bedroom 1"]
+      iPhoneB1[iPhone]
+      iPadB1[iPad]
+      MacbookB1[Macbook]
+      PCB1[PC]
+      SmartLightB1["Smart lights"]
+      Router -->|wireless| iPhoneB1
+      Router -->|wireless| iPadB1
+      Router -->|wireless| MacbookB1
+      Router -->|wireless| SmartLightB1
+      Switch -->|wired| PCB1
+    end
+
+    %% Bedroom 2
+    subgraph Bedroom2["Bedroom 2"]
+      iPhoneB2[iPhone]
+      MacbookB2[Macbook]
+      PCB2[PC]
+      Router -->|wireless| iPhoneB2
+      Router -->|wireless| MacbookB2
+      Switch -->|wired| PCB2
+    end
+
+    %% Bedroom 3
+    subgraph Bedroom3["Bedroom 3"]
+      PCB3[PC]
+      SmartWatch["Smart watch"]
+      SmartLightB3["Smart lights"]
+      Switch -->|wired| PCB3
+      Router -->|wireless| SmartWatch
+      Router -->|wireless| SmartLightB3
+    end
+
+    %% Key / Legend
+    subgraph Key["Key"]
+      Wired["Black: Wired connection"]
+      Wireless["Red: Wireless connection"]
+    end
+
+    classDef networkCore stroke:#818cf8,fill:#eef2ff
+    classDef wiredDevice stroke:#4ade80,fill:#f0fdf4
+    classDef wirelessDevice stroke:#2dd4bf,fill:#f0fdfa
+    classDef smartDevice stroke:#a78bfa,fill:#f5f3ff
+    classDef cloud stroke:#38bdf8,fill:#f0f9ff
+
+    class Cloud,Modem,Router,WifiBooster,Switch networkCore
+    class PCB1,PCB2,PCB3 wiredDevice
+    class iPhoneMB,iPadMB,iPhoneB1,iPadB1,MacbookB1,iPhoneB2,MacbookB2,SmartWatch wirelessDevice
+    class TV,SmartLightFR,SmartCam,SmartLightMB,SmartLightB1,SmartLightB3,HealthMonitor smartDevice
+    class Cloud cloud
+```
 
 ---
 
