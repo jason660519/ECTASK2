@@ -14,7 +14,7 @@ This report presents a comprehensive upgrade plan for a home network to support 
 The upgraded design implements a hybrid star topology with wired backbone connections for critical devices and Wi-Fi for flexible device placement. Key improvements include:
 - A new high-performance main router (ZTE BE6800Pro+) with the existing Archer C1200 repurposed as a Wi-Fi access point
 - Network segmentation using VLANs to separate trusted devices, IoT systems, surveillance, guest access, and management traffic
-- Local edge computing with Raspberry Pi and Jetson devices for real-time automation and AI processing
+- Local edge computing with Raspberry Pi and Jetson devices for real-time automation and processing
 - A comprehensive surveillance system with both PoE and Wi-Fi cameras connected to dedicated NVRs
 - Centralised storage via an Asustor Flashstor 6 NAS
 
@@ -34,9 +34,10 @@ This design balances performance, security, privacy, and scalability while addre
    4.1 [Network Type and Data Transmission](#network-type-and-data-transmission)
    4.2 [Topology Selection](#topology-selection)
    4.3 [Hardware Devices and Connections](#hardware-devices-and-connections)
-   4.4 [Addressing and Security Zones](#addressing-and-security-zones)
-   4.5 [Wi-Fi Coverage and Control Methods](#wi-fi-coverage-and-control-methods)
-   4.6 [Network Security](#network-security)
+   4.4 [Photographic Evidence](#photographic-evidence)
+   4.5 [Addressing and Security Zones](#addressing-and-security-zones)
+   4.6 [Wi-Fi Coverage and Control Methods](#wi-fi-coverage-and-control-methods)
+   4.7 [Network Security](#network-security)
 5. [Cloud and Data Use](#cloud-and-data-use)
    5.1 [Data Storage and Use](#data-storage-and-use)
    5.2 [Cloud vs Edge Computing](#cloud-vs-edge-computing)
@@ -53,34 +54,9 @@ This design balances performance, security, privacy, and scalability while addre
 
 ### Current Home Network Diagram
 
-**Figure 1** presents the existing home network architecture before the smart home upgrade. The network is a simple star topology with a single TP-Link Archer C1200 router as the central hub, connected to a basic switch for wired devices.
+**Figure 1** shows the existing home network architecture before the smart home upgrade. This is a simple star topology with a single TP-Link Archer C1200 router as the central hub, connected to a basic switch providing wired device connectivity.
 
-```mermaid
-graph TD
-      Internet[Internet / ISP]
-      Modem[Optical Modem]
-      Router[TP-Link Archer C1200 Router]
-      Switch[Basic Switch]
-
-      Internet --> Modem --> Router --> Switch
-
-      subgraph WirelessDevices[Wireless devices]
-         iPhones[iPhone x3]
-         MacBooks[MacBook x2]
-         iPads[iPad x2]
-         SmartTV[Smart TV x1]
-      end
-
-      subgraph WiredDevices[Wired devices]
-         PCs[PC x3]
-      end
-
-      Router --> iPhones
-      Router --> MacBooks
-      Router --> iPads
-      Router --> SmartTV
-      Switch --> PCs
-```
+![Current Home Network Diagram - Simple Version](diagrams/smart_home_network_diagram_simple.png)
 
 ### Current Network Device Inventory
 
@@ -93,170 +69,42 @@ graph TD
 | Smart TV | 1 |
 | Network Switch | 1 |
 
-### Router Placement
+### Router Placement and Issues
 
-The TP-Link Archer C1200 router is currently installed outside the pantry, a location chosen for its central position in the house and proximity to the nearest Ethernet port. This placement was intended to provide consistent Wi-Fi coverage, but signal degradation still occurs in distant rooms such as the master bedroom.
-
-### Router Specifications
-
-- **Router model:** TP-Link Archer C1200
-- **Type:** AC1200 Wireless Dual Band Gigabit Router
-- **Wi-Fi standards:** 802.11ac (5 GHz) and 802.11n (2.4 GHz)
-- **Source:** (TP-Link, 2024)
+The TP-Link Archer C1200 router is currently installed outside the pantry, chosen because of its central position in the house and proximity to the nearest Ethernet port. This placement was intended to provide stable Wi-Fi coverage, but signal degradation still occurs in distant rooms such as the master bedroom.
 
 ### Identified Problems with the Current Network
 
-The current network was evaluated against the requirements for a modern smart home, and the following deficiencies were identified:
+When evaluated against the requirements for a modern smart home, the current network shows the following deficiencies:
 
-1. **Weak signal coverage in the master bedroom** – Signal attenuation through walls and distance from the router causes unreliable connections
-2. **No smart device support** – The network is not designed for IoT devices, automation, or surveillance systems
+1. **Weak signal coverage in master bedroom** – Wall penetration and distance from the router cause unstable connections
+2. **Lack of smart device support** – The network is not designed for IoT devices, automation, or surveillance systems
 3. **Slow internet speeds** – The single router struggles with concurrent high-bandwidth activities
 4. **Random device dropouts** – Wi-Fi instability causes frequent disconnections
-5. **Inadequate security** – Weak passwords and lack of network segmentation expose the network to unauthorised access
-6. **No automation capabilities** – No support for smart home conveniences or energy efficiency features
+5. **Inadequate security** – Weak passwords and lack of network segmentation expose the network to unauthorised access risk
+6. **No automation capabilities** – Does not support smart home convenience or energy efficiency features
 
-These issues demonstrate that the current network is sufficient for basic internet access but not for a modern smart home. In particular, it lacks reliable coverage, dedicated capacity for high-bandwidth devices, and proper security separation between trusted and untrusted devices (NIST, 2023).
+These issues show that the current network is sufficient for basic internet access but inadequate for modern smart home needs. In particular, it lacks reliable coverage, dedicated capacity for high-bandwidth devices, and proper security separation between trusted and untrusted devices (NIST, 2023).
 
 ### New Smart Home Network Diagram
 
-**Figure 2** illustrates the proposed upgraded smart home network architecture. The design maintains the simplicity of a star topology while adding enhanced Wi-Fi coverage, network segmentation, local storage, edge computing, and a layered security approach.
+**Figure 2** shows the proposed upgraded smart home network architecture. The design maintains the simplicity of star topology while adding enhanced Wi-Fi coverage, network segmentation, local storage, edge computing, and a layered security approach.
 
-```mermaid
-graph TD
-      Internet[Internet / ISP Cloud]
-      NBN["NBN Optical Modem (4x UNI-D)"]
-      RouterMain["Main Router: ZTE BE6800Pro+"]
-      Router2["Second Router / AP: TP-Link Archer C1200"]
-      SwitchCore["Switch 1: NETGEAR JGS516PE (16-port, PoE)"]
-      SwitchPoE["Switch 2: 8-port 120W PoE"]
+![New Smart Home Network Diagram](diagrams/smart_home_network_diagram.png)
 
-      Internet -->|fiber| NBN
-      NBN -->|UNI-D1 (wired)| RouterMain
-      RouterMain -->|LAN (wired)| Router2
-      RouterMain -->|LAN (wired)| SwitchCore
-      SwitchCore -->|uplink (wired)| SwitchPoE
+### Before and After Comparison
 
-      subgraph CoreCompute["Core Compute and Storage"]
-         NAS["Asustor Flashstor 6 NAS (FS6706T)"]
-         PC1["PC-1 Dad AMD + RTX3090"]
-         PC2["PC-2 Younger Brother Intel + RTX5070"]
-         PC3["PC-3 Brother Intel + RTX3060"]
-         MacMini["Mac mini M4 (dev)"]
-         PS4["Sony PS4"]
-         Xbox["Xbox"]
-         CanonPrinter["Canon G3830 Wi-Fi Printer"]
+| Item | Before Upgrade | After Upgrade |
+|------|----------------|---------------|
+| **Main Router** | TP-Link Archer C1200 | ZTE BE6800Pro + old router reused as AP |
+| **Switches** | 1 basic switch | 2 dedicated switches (with PoE capability) |
+| **Wireless Coverage** | Single router | Dual router wireless extension |
+| **Security** | No segmentation | VLAN network segmentation |
+| **Surveillance** | None | Complete camera and NVR system |
+| **Storage** | None | Central NAS system |
+| **Edge Computing** | None | Raspberry Pi and Jetson platform |
 
-         SwitchCore -->|wired| NAS
-         SwitchCore -->|wired| PC1
-         SwitchCore -->|wired| PC2
-         SwitchCore -->|wired| PC3
-         SwitchCore -->|wired| MacMini
-         SwitchCore -->|wired| PS4
-         SwitchCore -->|wired| Xbox
-         RouterMain -->|wireless| CanonPrinter
-      end
-
-      subgraph EdgeAI["Edge AI and Home Automation"]
-         RPi5["Raspberry Pi 5"]
-         Jetson2G["Jetson Nano 2GB"]
-         Jetson4G["Jetson Nano 4GB"]
-         HAHost["Asus Notebook (Home Assistant)"]
-
-         SwitchCore -->|wired| RPi5
-         SwitchCore -->|wired| Jetson2G
-         SwitchCore -->|wired| Jetson4G
-         SwitchCore -->|wired| HAHost
-      end
-
-      subgraph Surveillance["Surveillance and Security"]
-         NVR1["Xiongmai 16-ch NVR (PoE)"]
-         NVR2["ANNKE 4-ch NVR (Wi-Fi cams)"]
-         CamTuya["Tuya 4K Wi-Fi Floodlight Cam"]
-         CamPoe["Xiongmai PoE Cameras x4"]
-         CamAnnke["ANNKE Wi-Fi Cameras x4"]
-
-         SwitchPoE -->|PoE + data| CamPoe
-         SwitchPoE -->|wired| NVR1
-         RouterMain -->|wired| NVR2
-         RouterMain -->|wireless| CamTuya
-         RouterMain -->|wireless| CamAnnke
-         HAHost -. app control .-> CamTuya
-      end
-
-      subgraph PersonalDevices["Personal Devices"]
-         iPhones["iPhone x4"]
-         iPads["iPad x3"]
-
-         RouterMain -->|wireless| iPhones
-         RouterMain -->|wireless| iPads
-         Router2 -->|extended Wi-Fi| iPhones
-         Router2 -->|extended Wi-Fi| iPads
-      end
-```
-
-### Alternative Diagram A: Simplified Marking Version
-
-**Figure 3** provides a simplified view of the network architecture, focusing on main device groups and backbone connections for clarity.
-
-```mermaid
-graph TD
-      Internet[Internet]
-      NBN["NBN Optical Modem"]
-      MainRouter["Main Router\nZTE BE6800Pro+"]
-      AP2["Second Router / AP\nTP-Link Archer C1200"]
-      CoreSwitch["NETGEAR 16-port Switch"]
-      PoESwitch["8-port PoE Switch"]
-
-      Internet --> NBN --> MainRouter
-      MainRouter --> AP2
-      MainRouter --> CoreSwitch
-      CoreSwitch --> PoESwitch
-
-      PCs["PC x3 + Mac mini"]
-      NAS["Asustor NAS"]
-      Mobile["iPhone x4 + iPad x3"]
-      Cameras["PoE Cameras x4 + Wi-Fi Cameras x5"]
-      NVR["NVR x2"]
-
-      CoreSwitch --> PCs
-      CoreSwitch --> NAS
-      PoESwitch --> Cameras
-      PoESwitch --> NVR
-      MainRouter --> Mobile
-      MainRouter --> Cameras
-```
-
-### Alternative Diagram B: Segmented Security Architecture
-
-**Figure 4** illustrates the network from a security perspective, showing how VLAN segmentation reduces risk by isolating different device categories.
-
-```mermaid
-graph TD
-      Internet[Internet]
-      NBN["NBN Optical Modem"]
-      RouterFW["Main Router / Firewall\nZTE BE6800Pro+"]
-      CoreSwitch["Managed Core Switch\nNETGEAR JGS516PE"]
-      PoESwitch["PoE Access Switch"]
-
-      Internet --> NBN --> RouterFW --> CoreSwitch --> PoESwitch
-
-      Trusted["VLAN 10 Trusted LAN\nPCs + NAS + Core devices"]
-      IoT["VLAN 20 IoT\nPrinter + Wi-Fi cameras"]
-      CCTV["VLAN 30 Surveillance\nPoE cams + NVR"]
-      Guest["VLAN 40 Guest Wi-Fi"]
-      Mgmt["VLAN 99 Management"]
-
-      CoreSwitch --> Trusted
-      RouterFW --> IoT
-      PoESwitch --> CCTV
-      RouterFW --> Guest
-      CoreSwitch --> Mgmt
-
-      P1["Policy: Guest cannot access Trusted/CCTV"]
-      P2["Policy: IoT only allows required traffic"]
-      RouterFW -.enforce.-> P1
-      RouterFW -.enforce.-> P2
-```
+This upgrade directly addresses all weaknesses of the current network while introducing advanced features required for smart home functionality.
 
 ---
 
@@ -351,8 +199,8 @@ The following table summarises the key hardware components in the upgraded netwo
 | NETGEAR JGS516PE Switch | 16-port gigabit with PoE | Needed because the home now has more wired endpoints than router LAN ports |
 | 8-port 120W PoE Switch | Dedicated PoE for surveillance | Separates camera power/data load from general traffic and improves CCTV stability |
 | Asustor Flashstor 6 NAS | Central storage and backup | Matches household need for shared files, backup, and local media/surveillance retention |
-| PCs and Mac mini | Compute and daily use | Reflects real high-bandwidth family usage (development, gaming, content, AI tasks) that benefits from wired links |
-| Edge Devices (RPi, Jetson, HA) | Local automation and edge AI | Enables local automations and low-latency processing even during cloud/WAN interruptions |
+| PCs and Mac mini | Compute and daily use | Reflects real high-bandwidth family usage (development, gaming, content tasks) that benefits from wired links |
+| Edge Devices (RPi, Jetson, HA) | Local automation and edge processing | Enables local automations and low-latency processing even during cloud/WAN interruptions |
 | Camera System | Security monitoring | Fits the real safety objective of full-home monitoring and remote incident checks |
 | NVR System | Video recording and management | Provides local evidence retention and playback without relying only on vendor cloud services |
 | iPhones/iPads | User control interface | Mirrors how the household actually controls cameras, alerts, and automation day-to-day |
@@ -363,6 +211,41 @@ All devices connect through the star topology with the ZTE BE6800Pro+ as the mai
 These hardware choices are based on the actual household setup, not a generic example. The Archer C1200 is reused as an access point because the house already has weak Wi-Fi areas and the device still has value. The NAS is included because the family needs shared storage and backup. The NVR is included because the cameras need local recording, not only cloud recording. The Raspberry Pi, Jetson boards, and Home Assistant host are included because the home benefits from low-power local automation and edge processing. The cable tools, tracers, and PoE splitter are also part of the design because a real retrofit needs cable testing, cable tracing, and flexible power delivery for cameras or devices without a nearby socket.
 
 In assessment terms, this is a problem-driven selection rather than a technology wishlist: coverage problems map to the AP strategy, random dropouts map to a stronger router and wired backbone, surveillance requirements map to PoE + NVR, and family workflow needs map to NAS plus mobile app control. This direct mapping helps demonstrate authentic design decisions and stronger technical justification.
+
+### Photographic Evidence
+
+The photographs below show the physical equipment that supports the hardware list above. They are grouped by function so the report remains easy to read while still including the real devices used in the home.
+
+**Figure 5: Core networking hardware and installation tools
+
+| | | |
+| --- | --- | --- |
+| ![ZTE BE6800 Pro+ router front](PIC/zte_be6800_pro_router_front.jpg) | ![ZTE BE6800 Pro+ router back](PIC/zte_be6800_pro_router_backjpg.jpg) | ![PoE switch](PIC/poe_switch.jpeg) |
+| ![Internet cable tools](PIC/internet_cable_tools_1.jpg) | ![Optical wire meter tracer](PIC/wire_meter_tracer_1_optical.jpg) | ![Wire meter tracer](PIC/wire_meter_tracer_2.jpg) |
+| ![PoE splitter](PIC/poe_splitter.jpg) | ![Starlink receiver, router, and power supply box](PIC/starlink_satellite_receiver_starlink_router_power_supply_box.jpg) | ![Living Room LG TV](PIC/living_room_lg_tv.jpg) |
+
+**Figure 6: Storage and workstation hardware
+
+| | | |
+| --- | --- | --- |
+| ![Asustor NAS front](PIC/asustor_nas_front.jpeg) | ![Asustor NAS back](PIC/asustor_nas_back.jpeg) | ![Synology NAS](PIC/synalogy_nas_1.jpg) |
+| ![Home lab overview](PIC/home_lab_1.jpeg) | ![Mac Intel Docker server](PIC/15_years_old_apple_mac_intel_book_x86_1_for_docker_server.jpg) | ![Server PC](PIC/mis_pc_living_server_for_comfy_ui_ai_generator.jpg) |
+| ![RTX3090 power supply](PIC/mis_pc_powersupply_1100w_for_rtx3090.jpg) |  |  |
+
+**Figure 7: Edge and automation hardware
+
+| | | |
+| --- | --- | --- |
+| ![Raspberry Pi 5](PIC/raspberry_pi_5_4gb.jpg) | ![Jetson Nano 2GB](PIC/jestson_nano_2g_2.jpg) | ![Jetson Nano 4GB](PIC/jestson_nano_4g_1.jpg) |
+| ![DIY 3D printer](PIC/diy_3d_printer.jpg) | ![Robot vacuum cleaner](PIC/valcumn_cleaner_rotics.jpg) | ![Sony Vivo notebook](PIC/20_years_old_sony_vivo_note_bookjpg.jpg) |
+
+**Figure 8: Surveillance and recording hardware
+
+| | | |
+| --- | --- | --- |
+| ![NVR front](PIC/nvr_recoder_front.jpeg) | ![NVR back](PIC/nvr_recoder_back.jpeg) | ![NVR internal view](PIC/nvr_recoder_in.jpeg) |
+
+Together, these photos show that the network design is based on the household's real equipment and installation constraints. Some devices are reused because they already fit the job, some are added because the current network cannot cover the whole house, and some are installation tools needed to make the retrofit measurable and reliable.
 
 ### Addressing and Security Zones
 
@@ -456,7 +339,7 @@ The smart home uses a **mixed cloud-edge model** to balance convenience, privacy
 | Camera event backups and metadata | Real-time motion detection and local recording |
 | Mobile push alert history | NVR local recording and indexing |
 | Account configuration backups | Home Assistant local automations |
-| Remote access dashboards | Edge AI inference on RPi/Jetson |
+| Remote access dashboards | Edge processing on RPi/Jetson |
 | Off-site file backups | Internal LAN communication and control |
 
 #### Cloud Benefits
@@ -516,19 +399,19 @@ The key benefit is **availability**—users can monitor their home from anywhere
 
 Edge computing processes data close to where it is generated instead of sending everything to the cloud. In this design:
 - Raspberry Pi 5 runs Home Assistant for local automation
-- Jetson Nano devices perform edge AI for camera analytics
+- Jetson Nano devices perform edge processing for camera analytics
 - NVR systems handle local recording without internet dependency
 
 The key benefit is **responsiveness**—critical functions continue operating even during internet outages, and privacy is enhanced by keeping sensitive data local.
 
-### 3. Artificial Intelligence (AI)
+### 3. Smart Automation
 
-AI enables pattern recognition and intelligent decision-making. In this smart home:
-- AI filters camera motion events to reduce false positives (e.g., ignoring pets while detecting people)
-- Home Assistant uses predictive automation based on user habits
-- Edge analytics reduce unnecessary cloud uploads
+Smart automation enables intelligent decision-making based on pre-defined rules and sensor inputs. In this smart home:
+- Camera motion events are filtered to reduce false positives (e.g., ignoring pets while detecting people)
+- Home Assistant uses automation based on user habits
+- Edge processing reduces unnecessary cloud uploads
 
-The key benefit is **efficiency**—AI reduces alert fatigue, prioritises important events, and automates routine tasks without constant user input.
+The key benefit is **efficiency**—smart systems reduce alert fatigue, prioritise important events, and automate routine tasks without constant user input.
 
 Together, these technologies create a smart home that is not just a collection of devices, but an integrated system where networking, automation, data processing, and security design reinforce each other.
 
@@ -615,11 +498,11 @@ Photographs of the current router, switches, storage devices, edge devices, and 
 - `synalogy_nas_1.jpg` – Additional NAS hardware in the home lab
 - `home_lab_1.jpeg` – Home lab overview
 - `15_years_old_apple_mac_intel_book_x86_1_for_docker_server.jpg` – Older Mac used as a Docker/server machine
-- `mis_pc_living_server_for_comfy_ui_ai_generator.jpg` – Living room server PC used for ComfyUI and AI tasks
+- `mis_pc_living_server_for_comfy_ui_ai_generator.jpg` – Living room server PC used for ComfyUI and tasks
 - `mis_pc_powersupply_1100w_for_rtx3090.jpg` – High-wattage PSU for the high-performance PC build
 - `raspberry_pi_5_4gb.jpg` – Raspberry Pi 5 used for low-power local services
-- `jestson_nano_2g_2.jpg` – Jetson Nano 2GB for edge AI experiments
-- `jestson_nano_4g_1.jpg` – Jetson Nano 4GB for edge AI experiments
+- `jestson_nano_2g_2.jpg` – Jetson Nano 2GB for edge processing experiments
+- `jestson_nano_4g_1.jpg` – Jetson Nano 4GB for edge processing experiments
 - `diy_3d_printer.jpg` – DIY 3D printer used for prototyping and repair support
 - `valcumn_cleaner_rotics.jpg` – Robot vacuum cleaner showing another smart device in the home
 - `20_years_old_sony_vivo_note_bookjpg.jpg` – Older notebook reused for light server or utility work

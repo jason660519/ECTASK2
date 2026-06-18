@@ -1,0 +1,53 @@
+%% Simplified - Home Network After Upgrade
+graph TD
+    Internet[Internet ISP]
+    NBN[Optical Modem]
+    MainRouter[ZTE BE6800Pro Main Router]
+    AP[Archer C1200 Wireless Extender]
+    CoreSwitch[NETGEAR 16-port PoE Switch]
+    PoESwitch[8-port PoE Switch]
+    
+    Internet --> NBN
+    NBN --> MainRouter
+    MainRouter --> AP
+    MainRouter --> CoreSwitch
+    CoreSwitch --> PoESwitch
+    
+    subgraph Core and Storage
+        NAS[Asustor NAS]
+        PCs[PC x3 + Mac mini]
+        PS4[PS4 + Xbox]
+        
+        CoreSwitch --> NAS
+        CoreSwitch --> PCs
+        CoreSwitch --> PS4
+    end
+    
+    subgraph Edge and Automation
+        Edge[Raspberry Pi + Jetson x2]
+        
+        CoreSwitch --> Edge
+    end
+    
+    subgraph Surveillance and Security
+        NVRs[NVR x2]
+        Cameras[PoE Cameras x4 + WiFi Cameras x5]
+        
+        PoESwitch --> Cameras
+        PoESwitch --> NVRs
+    end
+    
+    subgraph Personal and Mobile
+        Mobile[iPhone x4 + iPad x3]
+        
+        MainRouter --> Mobile
+        AP --> Mobile
+    end
+    
+    classDef core stroke:#2563eb,fill:#dbeafe,color:#000;
+    classDef wired stroke:#15803d,fill:#dcfce7,color:#000;
+    classDef wireless stroke:#b45309,fill:#fef3c7,color:#000;
+    
+    class Internet,NBN,MainRouter,AP,CoreSwitch,PoESwitch core
+    class NAS,PCs,PS4,Edge,NVRs wired
+    class Cameras,Mobile wireless
