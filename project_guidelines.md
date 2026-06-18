@@ -46,7 +46,7 @@ Use only the following status indicators:
 - `report_final.md`: Finalized report ready for submission.
 - `assessment_task2_report_final.docx`: Word format deliverable.
 - `smart_home_network_diagram*.mmd`: Multiple diagram variants on the same topic.
-- `smart_home_network_diagram.jpg`: Output images, not edited directly.
+- `archive/diagram_exports/`: Exported diagram images (png/jpg), not edited directly.
 - `scripts/excel_to_md.py`: Data transformation tools.
 - `sheets_md/`: External data export directory.
 - `archive/`: Historical drafts, raw exports, and original source files that should not stay in the root.
@@ -69,9 +69,17 @@ Use only the following status indicators:
 - Unnamed screenshots or attachments
 - Raw Pages or office source exports that are no longer the active editing source
 - Historical drafts that are not the current working version
+- Exported images generated from Mermaid source files
 
 **Explicit root exceptions:**
 - `.nojekyll` may remain in root when the project is published through GitHub Pages and needs that marker.
+
+### Root Cleanliness Enforcement
+
+- Root should stay focused on active navigation and current working files only.
+- Generated artifacts must be placed in dedicated folders (for this project: `archive/diagram_exports/` for diagram image exports).
+- If a file has no active link from `index.md` or `_sidebar.md`, move it to `archive/` unless it is currently being edited.
+- After each batch export or rename operation, perform a root cleanup pass before finalizing work.
 
 ### scripts/ Directory
 

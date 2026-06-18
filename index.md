@@ -4,6 +4,7 @@ Welcome to the ECTask2 workspace. This homepage organizes the current project fi
 
 ## Main Pages
 
+- [readme.md](./readme.md) — Project overview, structure, and maintenance workflow.
 - [assessment_task2_report_final.md](./assessment_task2_report_final.md) — **Final Submission Report** (fully optimised for marking)
 - [report_final.md](./report_final.md) — Previous formatted submission-oriented version of the report.
 - [report_draft.md](./report_draft.md) — Main working draft of the report.
@@ -22,6 +23,7 @@ Welcome to the ECTask2 workspace. This homepage organizes the current project fi
 - `assessment_task2_report_final.md` is the **final, optimised report** ready for submission.
 - `report_draft.md` is the active working draft.
 - `sheets_md/` keeps a cleaned summary file for report usage.
+- Exported diagram images are archived in `archive/diagram_exports/`.
 - Raw source exports such as Pages files should be kept in `archive/` unless they are the active editable source.
 - Diagram editing should use the `.mmd` files rather than the exported image.
 

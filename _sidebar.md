@@ -1,5 +1,6 @@
 <!-- _sidebar.md -->
 * [Home](/)
+* [README](/readme.md)
 * [Final Report](/assessment_task2_report_final.md)
 * [Network Diagrams](/network_diagrams.md)
 
