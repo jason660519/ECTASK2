@@ -1,0 +1,7 @@
+{
+  "theme": "base",
+  "flowchart": {
+    "curve": "linear",
+    "padding": 18
+  }
+}

@@ -1,0 +1,41 @@
+%% Simplified marking version of the smart home network diagram.
+graph TD
+    Internet[Internet]
+    NBN[NBN Optical Modem]
+    MainRouter[Main Router ZTE BE6800Pro]
+    AP2[Second Router AP TP Link Archer C1200]
+    CoreSwitch[NETGEAR 16 port Switch]
+    PoESwitch[8 port PoE Switch]
+
+    Internet --> NBN --> MainRouter
+    MainRouter --> AP2
+    MainRouter --> CoreSwitch
+    CoreSwitch --> PoESwitch
+
+    PCs[PC x3 and Mac mini]
+    NAS[Asustor NAS]
+    Consoles[PS4 and Xbox]
+    Mobile[iPhone x4 and iPad x3]
+    Edge[Raspberry Pi Jetson x2 and Home Assistant]
+    Cameras[PoE Cameras x4 and WiFi Cameras x5]
+    NVR[NVR x2]
+    Printer[Canon WiFi Printer]
+
+    CoreSwitch --> PCs
+    CoreSwitch --> NAS
+    CoreSwitch --> Consoles
+    CoreSwitch --> Edge
+    PoESwitch --> Cameras
+    PoESwitch --> NVR
+    MainRouter --> Mobile
+    MainRouter --> Printer
+    MainRouter --> NVR
+    MainRouter --> Cameras
+
+    classDef core stroke:#1d4ed8,fill:#dbeafe,color:#111827;
+    classDef wired stroke:#15803d,fill:#dcfce7,color:#111827;
+    classDef wireless stroke:#b45309,fill:#fef3c7,color:#111827;
+
+    class Internet,NBN,MainRouter,AP2,CoreSwitch,PoESwitch core
+    class PCs,NAS,Consoles,Edge,NVR wired
+    class Mobile,Printer,Cameras wireless

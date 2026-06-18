@@ -1,24 +1,33 @@
 # Project Homepage
 
-Welcome to the ECTask2 workspace. This homepage organizes the main project files and links to the formatted report and supporting pages.
+Welcome to the ECTask2 workspace. This homepage organizes the current project files and links to the main working documents.
 
 ## Main Pages
 
-- [Report.md](./Report.md) — Smart home network project report with structured sections and a clean layout.
-- [sheets_md/my_pc_orig.md](./sheets_md/my_pc_orig.md) — PC hardware and component inventory sheet.
-- [sheets_md/Danny_Project_orig.md](./sheets_md/Danny_Project_orig.md) — Project notes and planning material.
-- [sheets_md/QA_orig.md](./sheets_md/QA_orig.md) — Question-and-answer notes.
-- [sheets_md/3C_orig.md](./sheets_md/3C_orig.md) — Additional notes and content.
-- [sheets_md/Sheet53_orig.md](./sheets_md/Sheet53_orig.md) — Extracted sheet content.
-- [sheets_md/Sheet56_orig.md](./sheets_md/Sheet56_orig.md) — Extracted sheet content.
-- [sheets_md/sheet_orig.md](./sheets_md/sheet_orig.md) — Extracted sheet content.
+- [assessment_task2_report_final.md](./assessment_task2_report_final.md) — **Final Submission Report** (fully optimised for marking)
+- [report_final.md](./report_final.md) — Previous formatted submission-oriented version of the report.
+- [Report.md](./Report.md) — Original initial report draft.
+- [project_guidelines.md](./project_guidelines.md) — Unified project guidelines for report formatting and file naming management.
+- [sheets_md/3c_clean_en.md](./sheets_md/3c_clean_en.md) — Cleaned summary of the home device inventory for report use.
+
+## Diagram Sources
+
+- [smart_home_network_diagram.mmd](./smart_home_network_diagram.mmd) — Main Mermaid source for the proposed network diagram.
+- [smart_home_network_diagram_simple.mmd](./smart_home_network_diagram_simple.mmd) — Simplified diagram variant.
+- [smart_home_network_diagram_segmented.mmd](./smart_home_network_diagram_segmented.mmd) — Segmented security architecture variant.
+- [smart_home_network_diagram_by_rooms.mmd](./smart_home_network_diagram_by_rooms.mmd) — Room-based diagram variant.
 
 ## Notes
 
-- `Report.md` has been converted into a tidy Markdown report with headings, lists, and sections.
-- The `sheets_md` files are retained in their original export format.
-- Use this homepage to quickly open the main report or supporting markdown files.
+- `assessment_task2_report_final.md` is the **final, optimised report** ready for submission.
+- `sheets_md/` keeps a cleaned summary file for report usage.
+- Diagram editing should use the `.mmd` files rather than the exported image.
 
-## Recommended next step
+## Rename Quick Checklist
 
-Open `Report.md` to view the formatted smart home network homepage content.
+After any filename/path change, run this short flow:
+
+1. Run command: `.claude/commands/naming-post-rename-verify.md`
+2. Confirm `naming_audit_report.md` shows `Error = 0`
+3. If errors mention broken links, fix `index.md` first
+4. Re-run verification until it passes

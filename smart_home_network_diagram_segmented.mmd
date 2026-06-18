@@ -1,0 +1,74 @@
+%% Segmented security architecture with VLAN style separation.
+graph TD
+    Internet[Internet]
+    NBN[NBN Optical Modem]
+    RouterFW[Main Router Firewall ZTE BE6800Pro]
+    CoreSwitch[Managed Core Switch NETGEAR JGS516PE]
+    PoESwitch[PoE Access Switch]
+
+    Internet --> NBN --> RouterFW --> CoreSwitch --> PoESwitch
+
+    subgraph VLAN10[VLAN 10 Trusted LAN]
+      PCs[PC x3 and Mac mini]
+      NAS[Asustor NAS]
+      Consoles[PS4 and Xbox]
+      AdminEdge[Raspberry Pi Jetson and HA Host]
+    end
+
+    subgraph VLAN20[VLAN 20 IoT Home Devices]
+      Printer[Canon WiFi Printer]
+      TuyaCam[Tuya WiFi Floodlight Camera]
+      AnnkeWiFi[ANNKE WiFi Cameras x4]
+    end
+
+    subgraph VLAN30[VLAN 30 Surveillance]
+      CamPoE[Xiongmai PoE Cameras x4]
+      NVR1[Xiongmai 16 channel NVR]
+      NVR2[ANNKE 4 channel NVR]
+    end
+
+    subgraph VLAN40[VLAN 40 Guest WiFi]
+      GuestPhones[Guest Mobile Devices]
+    end
+
+    subgraph VLAN99[VLAN 99 Management]
+      Router2AP[TP Link Archer C1200 AP mode]
+      MgmtUI[Admin Console]
+    end
+
+    CoreSwitch --> PCs
+    CoreSwitch --> NAS
+    CoreSwitch --> Consoles
+    CoreSwitch --> AdminEdge
+
+    RouterFW --> Printer
+    RouterFW --> TuyaCam
+    RouterFW --> AnnkeWiFi
+
+    PoESwitch --> CamPoE
+    PoESwitch --> NVR1
+    RouterFW --> NVR2
+
+    RouterFW --> GuestPhones
+    CoreSwitch --> Router2AP
+    CoreSwitch --> MgmtUI
+
+    Policy1[Policy Guest blocked from Trusted and Surveillance]
+    Policy2[Policy IoT only allows required cloud and app traffic]
+    Policy3[Policy Management only for admin devices]
+
+    RouterFW -. enforce .-> Policy1
+    RouterFW -. enforce .-> Policy2
+    RouterFW -. enforce .-> Policy3
+
+    classDef infra stroke:#1d4ed8,fill:#dbeafe,color:#111827;
+    classDef trusted stroke:#166534,fill:#dcfce7,color:#111827;
+    classDef iot stroke:#b45309,fill:#fef3c7,color:#111827;
+    classDef sec stroke:#7c3aed,fill:#ede9fe,color:#111827;
+    classDef policy stroke:#7f1d1d,fill:#fee2e2,color:#111827;
+
+    class Internet,NBN,RouterFW,CoreSwitch,PoESwitch,Router2AP infra
+    class PCs,NAS,Consoles,AdminEdge,MgmtUI trusted
+    class Printer,TuyaCam,AnnkeWiFi,GuestPhones iot
+    class CamPoE,NVR1,NVR2 sec
+    class Policy1,Policy2,Policy3 policy

@@ -1,90 +1,81 @@
----
-config:
-  layout: elk
----
+%% Primary full-detail diagram for the proposed smart home network.
 graph TD
-    %% Central Network Topology
-    Cloud[Cloud]
-    Modem[Modem]
-    Router[Router]
-    WifiBooster["Wi‑Fi booster"]
-    Switch[Switch]
+    Internet[Internet ISP]
+    NBN[NBN Optical Modem]
+    RouterMain[Main Router ZTE BE6800Pro]
+    Router2[Second Router AP TP Link Archer C1200]
+    SwitchCore[Switch 1 NETGEAR JGS516PE 16 port PoE]
+    SwitchPoE[Switch 2 8 port 120W PoE]
 
-    %% Core connections
-    Cloud -->|wired| Modem -->|wired| Router
-    Router -->|wired| WifiBooster
-    Router -->|wired| Switch
+    Internet --> NBN
+    NBN --> RouterMain
+    RouterMain --> Router2
+    RouterMain --> SwitchCore
+    SwitchCore --> SwitchPoE
 
-    %% Family Room
-    subgraph FamilyRoom["Family room"]
-      TV[TV]
-      SmartCam["Smart security camera"]
-      SmartLightFR["Smart lights"]
-      Router -->|wireless| TV
-      Router -->|wireless| SmartCam
-      Router -->|wireless| SmartLightFR
+    subgraph CoreCompute[Core Compute and Storage]
+      NAS[Asustor Flashstor 6 NAS FS6706T]
+      PC1[PC1 Dad AMD RTX3090]
+      PC2[PC2 Younger Brother Intel RTX5070]
+      PC3[PC3 Brother Intel RTX3060]
+      MacMini[Mac mini M4]
+      PS4[Sony PS4]
+      Xbox[Xbox]
+      CanonPrinter[Canon G3830 WiFi Printer]
+
+      SwitchCore --> NAS
+      SwitchCore --> PC1
+      SwitchCore --> PC2
+      SwitchCore --> PC3
+      SwitchCore --> MacMini
+      SwitchCore --> PS4
+      SwitchCore --> Xbox
+      RouterMain --> CanonPrinter
     end
 
-    %% Master Bedroom
-    subgraph MasterBedroom["Master bedroom"]
-      iPhoneMB[iPhone]
-      iPadMB[iPad]
-      SmartLightMB["Smart lights"]
-      HealthMonitor["Health monitor"]
-      Router -->|wireless| iPhoneMB
-      Router -->|wireless| iPadMB
-      Router -->|wireless| SmartLightMB
-      iPhoneMB <-->|wireless| HealthMonitor
+    subgraph EdgeAI[Edge AI and Home Automation]
+      RPi5[Raspberry Pi 5]
+      Jetson2G[Jetson Nano 2GB]
+      Jetson4G[Jetson Nano 4GB]
+      HAHost[Asus Notebook Home Assistant]
+
+      SwitchCore --> RPi5
+      SwitchCore --> Jetson2G
+      SwitchCore --> Jetson4G
+      SwitchCore --> HAHost
     end
 
-    %% Bedroom 1
-    subgraph Bedroom1["Bedroom 1"]
-      iPhoneB1[iPhone]
-      iPadB1[iPad]
-      MacbookB1[Macbook]
-      PCB1[PC]
-      SmartLightB1["Smart lights"]
-      Router -->|wireless| iPhoneB1
-      Router -->|wireless| iPadB1
-      Router -->|wireless| MacbookB1
-      Router -->|wireless| SmartLightB1
-      Switch -->|wired| PCB1
+    subgraph Surveillance[Surveillance and Security]
+      NVR1[Xiongmai 16 channel NVR PoE]
+      NVR2[ANNKE 4 channel NVR WiFi cameras]
+      CamTuya[Tuya 4K WiFi Floodlight Camera]
+      CamPoe[Xiongmai PoE Cameras x4]
+      CamAnnke[ANNKE WiFi Cameras x4]
+
+      SwitchPoE --> CamPoe
+      SwitchPoE --> NVR1
+      RouterMain --> NVR2
+      RouterMain --> CamTuya
+      RouterMain --> CamAnnke
+      HAHost -. app control .-> CamTuya
     end
 
-    %% Bedroom 2
-    subgraph Bedroom2["Bedroom 2"]
-      iPhoneB2[iPhone]
-      MacbookB2[Macbook]
-      PCB2[PC]
-      Router -->|wireless| iPhoneB2
-      Router -->|wireless| MacbookB2
-      Switch -->|wired| PCB2
+    subgraph PersonalDevices[Personal Devices]
+      iPhones[iPhone x4]
+      iPads[iPad x3]
+
+      RouterMain --> iPhones
+      RouterMain --> iPads
+      Router2 --> iPhones
+      Router2 --> iPads
     end
 
-    %% Bedroom 3
-    subgraph Bedroom3["Bedroom 3"]
-      PCB3[PC]
-      SmartWatch["Smart watch"]
-      SmartLightB3["Smart lights"]
-      Switch -->|wired| PCB3
-      Router -->|wireless| SmartWatch
-      Router -->|wireless| SmartLightB3
-    end
+    classDef core stroke:#2563eb,fill:#dbeafe,color:#0f172a;
+    classDef wired stroke:#15803d,fill:#dcfce7,color:#0f172a;
+    classDef wireless stroke:#b45309,fill:#fef3c7,color:#0f172a;
+    classDef smart stroke:#7c3aed,fill:#ede9fe,color:#0f172a;
 
-    %% Key / Legend
-    subgraph Key["Key"]
-      Wired["Black: Wired connection"]
-      Wireless["Red: Wireless connection"]
-    end
-
-    classDef networkCore stroke:#818cf8,fill:#eef2ff
-    classDef wiredDevice stroke:#4ade80,fill:#f0fdf4
-    classDef wirelessDevice stroke:#2dd4bf,fill:#f0fdfa
-    classDef smartDevice stroke:#a78bfa,fill:#f5f3ff
-    classDef cloud stroke:#38bdf8,fill:#f0f9ff
-
-    class Cloud,Modem,Router,WifiBooster,Switch networkCore
-    class PCB1,PCB2,PCB3 wiredDevice
-    class iPhoneMB,iPadMB,iPhoneB1,iPadB1,MacbookB1,iPhoneB2,MacbookB2,SmartWatch wirelessDevice
-    class TV,SmartLightFR,SmartCam,SmartLightMB,SmartLightB1,SmartLightB3,HealthMonitor smartDevice
-    class Cloud cloud
+    class Internet,NBN,RouterMain,Router2,SwitchCore,SwitchPoE core
+    class NAS,PC1,PC2,PC3,MacMini,PS4,Xbox,NVR1,NVR2,RPi5,Jetson2G,Jetson4G wired
+    class iPhones,iPads,CanonPrinter,CamAnnke wireless
+    class HAHost,CamTuya,CamPoe smart

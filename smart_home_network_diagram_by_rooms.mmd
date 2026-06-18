@@ -1,0 +1,79 @@
+%% Room based layout of the smart home network.
+graph TD
+    Internet[Internet ISP]
+
+    subgraph Garage[Garage Communication Cabinet]
+      NBN[NBN Optical Modem]
+      RouterMain[Main Router ZTE BE6800Pro]
+      SwitchCore[Switch 1 NETGEAR JGS516PE]
+      SwitchPoE[Switch 2 8 port PoE 120W]
+      NVR1[Xiongmai 16 channel NVR]
+      NVR2[ANNKE 4 channel NVR]
+    end
+
+    subgraph LivingRoom[Living Room]
+      NAS[Asustor Flashstor 6 NAS]
+      PC1[PC1 Dad AMD RTX3090]
+      PS4[Sony PS4]
+      Xbox[Xbox]
+      CamTuya[Tuya 4K Floodlight Camera]
+    end
+
+    subgraph StudyAndBedrooms[Study and Bedrooms]
+      PC2[PC2 Intel RTX5070]
+      PC3[PC3 Intel RTX3060]
+      MacMini[Mac mini M4]
+      RPi5[Raspberry Pi 5]
+      Jetson2G[Jetson Nano 2GB]
+      Jetson4G[Jetson Nano 4GB]
+      HAHost[Asus Notebook Home Assistant]
+    end
+
+    subgraph WholeHomeWiFi[Whole Home WiFi Devices]
+      Router2[Second Router AP TP Link Archer C1200]
+      iPhones[iPhone x4 family]
+      iPads[iPad x3 family]
+      Printer[Canon G3830 WiFi Printer]
+      CamAnnke[ANNKE WiFi Cameras x4]
+      CamPoe[Xiongmai PoE Cameras x4]
+    end
+
+    Internet --> NBN --> RouterMain
+    RouterMain --> SwitchCore --> SwitchPoE
+    RouterMain --> Router2
+
+    SwitchCore --> NAS
+    SwitchCore --> PC1
+    SwitchCore --> PS4
+    SwitchCore --> Xbox
+
+    SwitchCore --> PC2
+    SwitchCore --> PC3
+    SwitchCore --> MacMini
+    SwitchCore --> RPi5
+    SwitchCore --> Jetson2G
+    SwitchCore --> Jetson4G
+    SwitchCore --> HAHost
+
+    SwitchPoE --> NVR1
+    RouterMain --> NVR2
+    SwitchPoE --> CamPoe
+    RouterMain --> CamTuya
+    RouterMain --> CamAnnke
+    HAHost -. app control .-> CamTuya
+
+    RouterMain --> iPhones
+    RouterMain --> iPads
+    Router2 --> iPhones
+    Router2 --> iPads
+    RouterMain --> Printer
+
+    classDef infra stroke:#1d4ed8,fill:#dbeafe,color:#111827;
+    classDef roomdev stroke:#166534,fill:#dcfce7,color:#111827;
+    classDef wifi stroke:#b45309,fill:#fef3c7,color:#111827;
+    classDef iot stroke:#7c3aed,fill:#ede9fe,color:#111827;
+
+    class Internet,NBN,RouterMain,Router2,SwitchCore,SwitchPoE infra
+    class NAS,PS4,Xbox,PC1,PC2,PC3,MacMini,RPi5,Jetson2G,Jetson4G roomdev
+    class iPhones,iPads,Printer,CamAnnke wifi
+    class NVR1,NVR2,CamPoe,CamTuya,HAHost iot
