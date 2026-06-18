@@ -1,10 +1,9 @@
 <!-- _sidebar.md -->
 * [Home](/)
-* [README](/readme.md)
-* [Final Report](/assessment_task2_report_final.md)
-* [Network Diagrams](/network_diagrams.md)
+* [Network Diagrams](network_diagrams.md)
+* [Reference Report](assessment_task2_report_final.md)
 
-* **Reference & Auxiliary Files**
-  * [Formatted Report](/report_final.md)
-  * [Working Draft](/report_draft.md)
-  * [Project Guidelines](/project_guidelines.md)
+* **Additional Files**
+  * [Project Guidelines](project_guidelines.md)
+  * [Report Draft](report_draft.md)
+  * [Report Final](report_final.md)
