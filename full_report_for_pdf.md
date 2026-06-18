@@ -90,52 +90,7 @@ These issues show that the current network is sufficient for basic internet acce
 
 **Figure 2** shows the proposed upgraded smart home network architecture. The design maintains the simplicity of star topology while adding enhanced Wi-Fi coverage, network segmentation, local storage, edge computing, and a layered security approach.
 
-```mermaid
-graph TD
-    Internet[Internet ISP]
-    NBN[Optical Modem]
-    MainRouter[ZTE BE6800Pro Main Router]
-    AP[Archer C1200 Wireless Extender]
-    CoreSwitch[NETGEAR 16-port PoE Switch]
-    PoESwitch[8-port PoE Switch]
-    
-    Internet --> NBN
-    NBN --> MainRouter
-    MainRouter --> AP
-    MainRouter --> CoreSwitch
-    CoreSwitch --> PoESwitch
-    
-    subgraph Core and Storage
-        NAS[Asustor NAS]
-        PCs[PC x3 + Mac mini]
-        PS4[PS4 + Xbox]
-        
-        CoreSwitch --> NAS
-        CoreSwitch --> PCs
-        CoreSwitch --> PS4
-    end
-    
-    subgraph Edge and Automation
-        Edge[Raspberry Pi + Jetson x2]
-        
-        CoreSwitch --> Edge
-    end
-    
-    subgraph Surveillance and Security
-        NVRs[NVR x2]
-        Cameras[PoE Cameras x4 + WiFi Cameras x5]
-        
-        PoESwitch --> Cameras
-        PoESwitch --> NVRs
-    end
-    
-    subgraph Personal and Mobile
-        Mobile[iPhone x4 + iPad x3]
-        
-        MainRouter --> Mobile
-        AP --> Mobile
-    end
-```
+![New Smart Home Network Diagram](diagrams/smart_home_network_diagram.png)
 
 ### Before and After Comparison
 

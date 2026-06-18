@@ -202,6 +202,13 @@ After adding, deleting, or renaming files:
 - **Referencing:** Number every visual element (e.g., Figure 1, Table 1) and cite it in body text.
 - **Appendices:** Start each appendix on a new page labeled "Appendix A", "Appendix B", etc.
 
+### 5. Mermaid Diagrams
+
+- **Source Files:** Maintain Mermaid source files (`.mmd` extension) as the canonical diagram source in the root directory.
+- **Exported Images:** Export Mermaid diagrams to image files (`.png` preferred) and store them in the `diagrams/` directory.
+- **PDF Reports:** For PDF reports (generated via `report_to_pdf.py`), always use the exported image files instead of raw Mermaid code blocks to ensure diagrams render correctly in the final PDF.
+- **Web Display:** For web/display versions (Docsify), you may use raw Mermaid code blocks for dynamic rendering.
+
 ## Part 4: Project Standards & Best Practices
 
 ### Minimum Compliance Standards
