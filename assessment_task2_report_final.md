@@ -9,16 +9,17 @@
 
 ## Executive Summary
 
-This report presents a comprehensive upgrade plan for a home network to support a modern smart home environment. The current network, consisting of a basic TP-Link Archer C1200 router and switch, suffers from weak signal coverage, slow speeds, random device dropouts, and limited security. The proposed solution addresses these deficiencies while introducing smart home capabilities, surveillance systems, and edge computing infrastructure.
+This report presents a comprehensive upgrade plan for a home network to support a modern smart home environment. The current network, consisting of a basic TP-Link Archer C1200 router and switch, suffers from weak signal coverage, slow speeds, random device dropouts, limited security, and—most critically—frequent NBN fibre internet disconnections that disrupt online meetings and daily operations. The proposed solution addresses these deficiencies while introducing smart home capabilities, surveillance systems, edge computing infrastructure, and a Starlink satellite internet backup to ensure continuous connectivity.
 
 The upgraded design implements a hybrid star topology with wired backbone connections for critical devices and Wi-Fi for flexible device placement. Key improvements include:
 - A new high-performance main router (ZTE BE6800Pro+) with the existing Archer C1200 repurposed as a Wi-Fi access point
 - Network segmentation using VLANs to separate trusted devices, IoT systems, surveillance, guest access, and management traffic
 - Local edge computing with Raspberry Pi and Jetson devices for real-time automation and processing
 - A comprehensive surveillance system with both PoE and Wi-Fi cameras connected to dedicated NVRs
-- Centralised storage via an Asustor Flashstor 6 NAS
+- Centralised storage via an Asustor Flashstor 6 NAS with additional Synology NAS for redundant backup
+- **Starlink satellite internet service as a reliable backup (or primary) connection to eliminate disruptions from NBN outages**
 
-This design balances performance, security, privacy, and scalability while addressing social, ethical, and legal considerations. The network is validated through Cisco Packet Tracer simulation and follows industry best practices for home network security as recommended by the Australian Cyber Security Centre (ACSC, 2024).
+This design balances performance, security, privacy, reliability, and scalability while addressing social, ethical, and legal considerations. The network is validated through Cisco Packet Tracer simulation and follows industry best practices for home network security as recommended by the Australian Cyber Security Centre (ACSC, 2024).
 
 ---
 
@@ -83,8 +84,9 @@ When evaluated against the requirements for a modern smart home, the current net
 4. **Random device dropouts** – Wi-Fi instability causes frequent disconnections
 5. **Inadequate security** – Weak passwords and lack of network segmentation expose the network to unauthorised access risk
 6. **No automation capabilities** – Does not support smart home convenience or energy efficiency features
+7. **Frequent NBN fibre internet disconnections** – The primary NBN connection experiences regular outages, causing severe disruptions to online meetings, remote work, and daily internet usage. These interruptions often occur mid-conference, leading to lost productivity, missed business opportunities, and frustration.
 
-These issues show that the current network is sufficient for basic internet access but inadequate for modern smart home needs. In particular, it lacks reliable coverage, dedicated capacity for high-bandwidth devices, and proper security separation between trusted and untrusted devices (NIST, 2023).
+These issues show that the current network is insufficient for modern smart home and professional needs. In particular, the lack of a reliable internet backup connection represents a critical vulnerability for remote work and online communication. The network also lacks reliable coverage, dedicated capacity for high-bandwidth devices, and proper security separation between trusted and untrusted devices (NIST, 2023).
 
 ### New Smart Home Network Diagram
 
@@ -312,14 +314,26 @@ The smart home generates and uses several categories of data:
 3. **Personal data** – Account details, app credentials, notification preferences, health-related information (if applicable)
 
 IoT and surveillance devices generate much of this data. For example:
-- Security cameras record continuous footage and motion-triggered events
-- NVR systems index recordings and manage retention
+- Security cameras record continuous footage and motion-triggered events to the NVR first
+- NVR systems index recordings and manage retention, then automatically backup footage to two NAS devices
 - Home Assistant logs device states and automation triggers
 
 This data is transmitted through the home network to:
-- Local NVR and NAS storage
+- Local NVR (primary recording)
+- Two NAS devices for redundant backup:
+  - Asustor Flashstor 6 with 6 SSDs in RAID1 configuration (primary backup)
+  - Synology NAS (secondary backup)
 - Mobile apps for local viewing
-- Cloud services for remote access and backups
+- No cloud backup services are used for camera footage due to cost considerations
+
+#### Surveillance Storage Architecture
+
+Camera footage follows a structured multi-layered backup strategy:
+1. **Primary Recording**: All camera footage is first recorded locally to the NVR
+2. **Redundant Local Backup**: Footage is automatically replicated to two NAS devices:
+   - Asustor Flashstor 6 with 6 SSDs configured in RAID1 for high availability and data redundancy
+   - Synology NAS provides an additional layer of backup protection
+3. **No Cloud Backup**: Cloud backup services are not used for camera footage due to the high cost of cloud storage for large video files. The home has solar panels, so 24/7 operation of the NAS devices incurs minimal electricity costs, making local backup both economical and environmentally friendly.
 
 Users can access this data through mobile applications to:
 - View real-time camera footage
@@ -336,17 +350,17 @@ The smart home uses a **mixed cloud-edge model** to balance convenience, privacy
 
 | Data Stored/Processed in Cloud | Data Stored/Processed Locally (Edge) |
 |---------------------------------|--------------------------------------|
-| Camera event backups and metadata | Real-time motion detection and local recording |
-| Mobile push alert history | NVR local recording and indexing |
-| Account configuration backups | Home Assistant local automations |
-| Remote access dashboards | Edge processing on RPi/Jetson |
-| Off-site file backups | Internal LAN communication and control |
+| Mobile push alert history | Real-time motion detection and local recording |
+| Account configuration backups | NVR local recording and indexing |
+| Remote access dashboards | NVR → dual NAS backup (Asustor RAID1 + Synology) |
+| | Home Assistant local automations |
+| | Edge processing on RPi/Jetson |
+| | Internal LAN communication and control |
 
 #### Cloud Benefits
 
 - Remote access from anywhere with internet
-- Automatic off-site backups
-- Scalable storage capacity
+- Account configuration backups
 - Vendor-provided feature updates
 
 #### Edge Benefits
@@ -355,8 +369,11 @@ The smart home uses a **mixed cloud-edge model** to balance convenience, privacy
 - Improved privacy (sensitive data stays local)
 - Reduced internet data usage
 - Continued operation during internet outages
+- Significant cost savings: Cloud backup for large video files is expensive, while local dual-NAS backup avoids recurring cloud storage fees
+- Environmental sustainability: The home has solar panels, so 24/7 NAS operation uses minimal grid electricity, making local backup both economical and eco-friendly
+- Redundant local storage: Dual NAS setup (Asustor Flashstor 6 with 6 SSDs in RAID1 + Synology NAS) provides high data availability and protection against hardware failure
 
-For this smart home, time-critical functions (automations, local recording, real-time alerts) remain at the edge, while cloud services provide remote access and off-site backup resilience. This hybrid approach ensures the home remains functional even if the internet connection is interrupted (NIST, 2023).
+For this smart home, time-critical functions (automations, local recording, real-time alerts) remain at the edge, while cloud services provide remote access only. Camera footage is stored entirely locally in a redundant backup architecture (NVR → Asustor RAID1 → Synology NAS) to avoid the high cost of cloud storage for video files. This approach ensures the home remains functional even if the internet connection is interrupted, while leveraging solar power for cost-effective and sustainable 24/7 operation (NIST, 2023).
 
 ### Data Security
 
@@ -447,7 +464,7 @@ While smart homes can improve accessibility for elderly users, busy families, an
 
 ## Conclusion
 
-This report has presented a comprehensive upgrade plan for a home network to support a modern smart home. The proposed design addresses the current network's weaknesses—poor coverage, instability, limited security, and lack of automation—while introducing significant improvements.
+This report has presented a comprehensive upgrade plan for a home network to support a modern smart home. The proposed design addresses the current network's weaknesses—poor coverage, instability, limited security, lack of automation, and **most critically, frequent NBN fibre internet disconnections that disrupt online meetings and remote work**—while introducing significant improvements.
 
 Key recommendations include:
 - A hybrid star topology with wired backbone for critical devices
@@ -455,9 +472,11 @@ Key recommendations include:
 - Local edge computing for resilience and privacy
 - A layered security approach following ACSC guidance
 - A balanced cloud-edge operating model
+- **Dual-WAN redundancy with Starlink satellite internet to eliminate NBN outage disruptions**
+- Redundant local storage (NVR → Asustor RAID1 → Synology NAS) with solar-powered operation
 - Consideration of social, ethical, and legal implications
 
-The upgraded network provides faster speeds, more reliable coverage, better security, and support for future expansion. It is a practical, future-proof design that meets the needs of a modern smart home while respecting privacy and security requirements.
+The upgraded network provides faster speeds, more reliable coverage, better security, continuous internet connectivity via Starlink backup, and support for future expansion. It is a practical, future-proof design that meets the needs of a modern smart home while respecting privacy and security requirements. Most importantly, the addition of Starlink ensures that online meetings and remote work can continue uninterrupted even during NBN service failures.
 
 ---
 
